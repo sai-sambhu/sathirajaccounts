@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+{% load humanize %}
+<html>
+
+<head>
+<title></title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+</head>
+
+<body>
+<nav class ="navbar navbar-default navbar navbar-static-top">
+<div class="container">
+<ul class="nav navbar-nav">
+  <li><a class="navbar-brand" href="{% url 'index' %}">RVP ACCOUNTANCY</a></li>
+  <li><a class="navbar-link" href="{% url 'admin:index' %}">Admin</a></li>
+  <!-- <li><a class="navbar-link" href="{% url 'basic_app:register' %}">Register Here</a></li> -->
+  <li><a class="navbar-link" href="{% url 'report' %}">Account Reports</a></li>
+  <li><a class="navbar-link" href="{% url 'intcal' %}">Interest Calc</a></li>
+  
+  {% if user.is_authenticated %}
+  <li><a class="navbar-link" href="{% url 'logout' %}">Logout</a></li>
+  {% else %}
+  <li><a class="navbar-link" href="{% url 'basic_app:user_login' %}">Login</a></li>
+  {% endif %}
+</ul>  
+
+</div>
+
+</nav>
+
+{% if user.is_authenticated %}
+   
+  <h1 color="red">
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  
+  Your are logged in sucessfully, {{ user.username }}, Your Cash in hand is: {{ cashInHand }}</h1>
+
+ 
+
+<div class="container">
+{% block body_block %}
+{% endblock %}
+</div>
+
+
+{% endif %}
+<div class="container">
+{% block loginpage %}
+{% endblock %}
+</div>
+
+
+
+<!--.techfont{
+        font-family: 'Russo One',sans-serif;
+        font-size: 1.5;
+        margin-bottom: 10px
+        }
+
+.bigbrand{
+        font-size: 1.5em;
+        }
+.centerstage{
+        margin-left: auto;
+        margin-rigth: auto;
+        }
+-->
+
+</body>
+
+<script>
+
+{% if fromDate %}
+{% else %}
+const date = new Date();
+date.setDate(date.getDate() - 30);
+document.getElementById('from').valueAsDate = date;
+document.getElementById('to').valueAsDate = new Date();
+
+{% endif %}
+
+var myTable = document.getElementById('jam');
+
+for (let i = 1; i < myTable.rows.length; i++) {
+  myTable.rows[i].cells[2].innerHTML = new Intl.NumberFormat('en-IN').format(myTable.rows[i].cells[2].innerHTML);
+  myTable.rows[i].cells[3].innerHTML = new Intl.NumberFormat('en-IN').format(myTable.rows[i].cells[3].innerHTML);
+   
+
+}
+
+
+
+
+</script>
+
+</html>
